@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="./src/index.scss">
+  <title>NWT Search</title>
+  <meta name="description"
+        content="A lighting fast search engine for the New World Translation Bible.">
+  <meta name="keywords" content="JW, JW.ORG, Jehovah's Witnesses, NWT, Bible, New World Translation, Scripture, Verses"/>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.nwt-search.live">
+  <meta property="og:title" content="Instant Search Scripture">
+  <meta name="og:description" content="Search through scriptures from the New World Translation bible"/>
+</head>
+
+<body>
+<div class="container">
+  <div class="row mt-3 ">
+    <div class="col-md">
+      <header>
+        <div class="row">
+          <div class="col-md">
+            <h1 class="text-md-center font-serif">
+              New World Translation Instant Search
+            </h1>
+            <h5 class="text-md-center mt-3 font-weight-light">
+              <div class="d-md-inline d-block mt-3">
+                <span style="vertical-align: text-bottom;">powered by</span>
+                <a href="https://typesense.org" target="_blank">
+                  <img src="images/typesense.svg" height="32" alt="Typesense" class="mx-2" style="vertical-align: top; position: relative; top: -4px;"/>
+                </a>
+              </div>
+            </h5>
+            <div class="text-md-center">
+              <a class="github-button" href="https://github.com/typesense/showcase-songs-search" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="normal" aria-label="View typesense/showcase-songs-search on GitHub">View on Github</a>
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-2 mt-md-3 no-gutters">
+  <div class="col-md">
+    <div id="searchbox-container" class="bg-secondary pt-3 pt-md-5 pb-2 pb-md-4 px-3 px-md-5">
+      <div class="row justify-content-md-center">
+        <div class="col-md-8">
+          <div id="searchbox"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="results-section" class="container d-none">
+
+  <div class="row mt-3">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md">
+      <div class="row d-flex justify-content-end">
+        <div id="sort-by" class="col-5 col-md-2 mt-2 mt-md-0"></div>
+        <div id="stats" class="col-md ml-md-2 text-right small order-first order-md-last d-flex align-items-center justify-content-end justify-content-md-start px-md-0"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-md-3">
+      <nav class="navbar navbar-expand-md navbar-light p-0 pb-3">
+        <button class="navbar-toggler text-primary border-light-2" type="button" data-toggle="collapse" data-target="#filters-section"
+                aria-controls="filters-section" aria-expanded="false" aria-label="Toggle filters">
+          <span class="navbar-toggler-icon"></span><span class="ml-2" style="font-size: 15px;">Refine</span>
+        </button>
+        <div class="collapse navbar-collapse d-md-block mt-3 mt-md-0" id="filters-section">
+          <div class="row mt-5">
+            <div class="col-md">
+              <h4 class="font-weight-light text-primary">Books</h4>
+              <div id="book-refinement-list"></div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="col-md">
+      <div id="hits"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="navbar fixed-bottom py-0">
+  <div class="container-fluid justify-content-center justify-content-md-end">
+    <span class="navbar-text">
+      <a href="#" aria-roledescription="button" data-toggle="modal" data-target="#aboutModal">
+        <span>about</span>
+      </a>
+    </span>
+  </div>
+</footer>
+
+<!-- About Modal -->
+<div id="aboutModal" class="modal fade" tabindex="-1" aria-labelledby="aboutLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-normal" id="aboutLabel">
+          About
+        </h5>
+        <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          This is a search engine for the New World Translation, Study Edition.
+          It provides a Google like search experience that will help you to retrieve any scriptures in a blink of an eye which is what we need in both the internal and external ministry.
+        </p>
+        <p>
+          This search engine is powered by <a href="https://typesense.org" target="_blank">Typesense</a>.
+          The engine is typo tolarant and will figure out what you want based on the key words or phrase you input into the search bar.
+          This powerful engine is also lighting fast, which gurantees a sub-50 milliseconds response time.
+        </p>
+        <p>
+          The scripture dataset is from <a href="https://www.jw.org/en/library/bible/study-bible/books/" target="_blank">JW.org</a> which host the online version of the New World Translation of the Holy Scriptures, Study edition.
+        </p>
+        <p>
+          For support and feedback, please contact me at <a href="mailto: rimorin@gmail.com" target="_blank">rimorin@gmail.com</a>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="./src/app.js"></script>
+</body>
+
+</html>

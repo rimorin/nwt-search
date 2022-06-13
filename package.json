@@ -1,0 +1,36 @@
+{
+  "name": "typesense-nwt-search",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "parcel index.html --port 3000",
+    "build": "parcel build index.html --public-url https://nwt.search",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix"
+  },
+  "devDependencies": {
+    "babel-eslint": "10.0.3",
+    "eslint": "5.7.0",
+    "eslint-config-prettier": "3.6.0",
+    "eslint-plugin-import": "2.19.1",
+    "eslint-plugin-prettier": "3.1.2",
+    "parcel-bundler": "^1.12.5",
+    "prettier": "1.19.1",
+    "sass": "^1.32.7"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.18.3",
+    "@popperjs/core": "^2.5.3",
+    "algoliasearch": "^4.13.1",
+    "bootstrap": "^4.6.1",
+    "dotenv": "^8.2.0",
+    "fast-json-stringify": "^2.2.9",
+    "instantsearch.js": "^4.41.0",
+    "jquery": "^3.6.0",
+    "lodash": "^4.17.20",
+    "popper.js": "^1.16.1",
+    "puppeteer": "^5.3.1",
+    "typesense": "^1.4.0-0",
+    "typesense-instantsearch-adapter": "^2.4.1"
+  }
+}
