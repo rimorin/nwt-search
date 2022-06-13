@@ -14,23 +14,15 @@ import {
   refinementList,
 } from 'instantsearch.js/es/widgets';
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
-import { SearchClient as TypesenseSearchClient } from 'typesense';
 import STOP_WORDS from './utils/stop_words.json';
 import {BOOK_MAPPINGS} from './utils/constants.js';
 
-// Source: https://stackoverflow.com/a/901144/123545
-const anchorParams = new Proxy(
-  new URLSearchParams(window.location.hash.replace('#', '')),
-  {
-    get: (anchorParams, prop) => anchorParams.get(prop),
-  }
-);
 
 let TYPESENSE_SERVER_CONFIG = {
   apiKey: process.env.TYPESENSE_SEARCH_ONLY_API_KEY, // Be sure to use an API key that only allows searches, in production
   nodes: [
     {
-      host: anchorParams.host ? anchorParams.host : process.env.TYPESENSE_HOST,
+      host: process.env.TYPESENSE_HOST || 'localhost',
       port: process.env.TYPESENSE_PORT || '8108',
       protocol: process.env.TYPESENSE_PROTOCOL || 'http',
     },
@@ -84,24 +76,6 @@ if (process.env[`TYPESENSE_HOST_NEAREST`]) {
 }
 
 const INDEX_NAME = process.env.TYPESENSE_COLLECTION_NAME;
-
-async function getIndexSize() {
-  let typesenseSearchClient = new TypesenseSearchClient(
-    TYPESENSE_SERVER_CONFIG
-  );
-  let results = await typesenseSearchClient
-    .collections(INDEX_NAME)
-    .documents()
-    .search({ q: '*' });
-
-  return results['found'];
-}
-
-let indexSize;
-
-(async () => {
-  indexSize = await getIndexSize();
-})();
 
 const bookMapping = (bookId) => {
   if(!bookId) return "Unknown";
@@ -177,9 +151,7 @@ search.addWidgets([
         } else {
           statsText = `${nbHits.toLocaleString()} results`;
         }
-        return `${statsText} found ${
-          indexSize ? ` - Searched ${indexSize.toLocaleString()} verses` : ''
-        } in ${processingTimeMS} ms.`;
+        return `${statsText} found in ${processingTimeMS} ms.`;
       },
     },
   }),
