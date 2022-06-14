@@ -16,11 +16,10 @@
     "eslint-plugin-prettier": "3.1.2",
     "parcel-bundler": "^1.12.5",
     "prettier": "1.19.1",
-    "sass": "^1.32.7"
+    "sass": "^1.52.3"
   },
   "dependencies": {
     "@babel/runtime": "^7.18.3",
-    "@popperjs/core": "^2.5.3",
     "algoliasearch": "^4.13.1",
     "bootstrap": "^4.6.1",
     "dotenv": "^8.2.0",
@@ -29,7 +28,6 @@
     "jquery": "^3.6.0",
     "lodash": "^4.17.20",
     "popper.js": "^1.16.1",
-    "typesense": "^1.4.0-0",
     "typesense-instantsearch-adapter": "^2.4.1"
   }
 }
