@@ -1,21 +1,12 @@
-# 🎶 NWT Search, powered by Typesense
+# NWT Search, powered by Typesense
 
-View it live here: [nwt.search](https://nwt.search)
+View it live here: [nwt-search.live](https://nwt-search.live)
 
 ## Tech Stack
 
 This search experience is powered by <a href="https://typesense.org" target="_blank">Typesense</a> which is
 a blazing-fast, <a href="https://github.com/typesense/typesense" target="_blank">open source</a> typo-tolerant
 search-engine. It is an open source alternative to Algolia and an easier-to-use alternative to ElasticSearch.
-
-The songs dataset is from <a href="https://musicbrainz.org/" target="_blank">MusicBrainz</a> which is an open
-music encyclopedia that collects music metadata and makes it available to the public. Please contribute to it if you're able to!
-
-The app was built using the <a href="https://github.com/typesense/typesense-instantsearch-adapter" target="_blank">
-Typesense Adapter for InstantSearch.js</a> and is hosted on <a href="https://www.digitalocean.com/products/app-platform/" target="_blank">DigitalOcean's App Platform</a>.
-
-The search backend is powered by a geo-distributed 3-node Typesense cluster running on <a href="https://cloud.typesense.org" target="_blank">Typesense Cloud</a>,
-with nodes in Oregon, Frankfurt and Mumbai.
 
 ## Repo structure
 
