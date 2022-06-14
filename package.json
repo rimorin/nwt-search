@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "parcel index.html --port 3000",
+    "start": "source ./local_setup.sh && parcel index.html --port 3000",
     "build": "parcel build index.html",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "deploy": "rm -rf build && npm run build && gsutil cp -r ./dist/* gs://nwt-search.live"
+    "deploy": "source ./prod_setup.sh && rm -rf dist && npm run build && gsutil cp -r ./dist/* gs://nwt-search.live"
   },
   "devDependencies": {
     "babel-eslint": "10.0.3",
