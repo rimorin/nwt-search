@@ -106,6 +106,8 @@ search.addWidgets([
       const modifiedQuery = queryWithoutStopWords(query);
       if (modifiedQuery.trim() !== '') {
         search(modifiedQuery);
+      } else {
+        $('#results-section').addClass('d-none');
       }
     },
   }),
@@ -115,7 +117,7 @@ search.addWidgets([
       text: ({ nbHits, hasNoResults, hasOneResult, processingTimeMS }) => {
         let statsText = '';
         if (hasNoResults) {
-          statsText = 'No results';
+          return "";
         } else if (hasOneResult) {
           statsText = '1 result';
         } else {
@@ -143,7 +145,7 @@ search.addWidgets([
               {{#helpers.highlight}}{ "attribute": "content" }{{/helpers.highlight}}
             </div>
         `,
-      empty: 'No scriptures found for <q>{{ query }}</q>. Try another search term.',
+      empty: 'No scriptures found for <q>{{ query }}</q>. Please try another search term.',
     },
   }),
   refinementList({
