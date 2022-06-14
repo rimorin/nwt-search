@@ -1,7 +1,3 @@
-import jQuery from 'jquery';
-
-window.$ = jQuery; // workaround for https://github.com/parcel-bundler/parcel/issues/333
-
 import 'popper.js';
 import 'bootstrap';
 
@@ -82,7 +78,7 @@ const bookMapping = (bookId) => {
   return BOOK_MAPPINGS[bookId];
 }
 
-function queryWithoutStopWords(query) {
+const queryWithoutStopWords = (query) => {
   const words = query.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '').split(' ');
   return words
     .map(word => {
@@ -113,10 +109,11 @@ const search = instantsearch({
   indexName: INDEX_NAME,
   routing: true,
   searchFunction(helper) {
+    const resultClassList = document.getElementById("results-section").classList;
     if (helper.state.query === '') {
-      $('#results-section').addClass('d-none');
+      resultClassList.add('d-none');
     } else {
-      $('#results-section').removeClass('d-none');
+      resultClassList.remove('d-none');
       helper.search();
     }
   },
@@ -203,44 +200,27 @@ search.addWidgets([
   })
 ]);
 
-function handleSearchTermClick(event) {
-  const $searchBox = $('#searchbox input[type=search]');
-  search.helper.clearRefinements();
-  $searchBox.val(event.currentTarget.textContent);
-  search.helper.setQuery($searchBox.val()).search();
-}
-
-search.on('render', function() {
-  // Make artist names clickable
-  $('#hits .clickable-search-term').on('click', handleSearchTermClick);
-});
-
 search.start();
 
-$(function() {
-  const $searchBox = $('#searchbox input[type=search]');
-  // Set initial search term
-  // if ($searchBox.val().trim() === '') {
-  //   $searchBox.val('Song');
-  //   search.helper.setQuery($searchBox.val()).search();
-  // }
-
-  // Handle example search terms
-  $('.clickable-search-term').on('click', handleSearchTermClick);
-
-  // Clear refinements, when searching
-  $searchBox.on('keydown', event => {
+function init () {
+  const searchBox = document.querySelector('#searchbox input[type=search]');
+  searchBox.onkeydown = function() {
     search.helper.clearRefinements();
-  });
+  };
 
   if (!matchMedia('(min-width: 768px)').matches) {
-    $searchBox.on('focus, keydown', () => {
-      $('html, body').animate(
-        {
-          scrollTop: $('#searchbox-container').offset().top,
-        },
-        500
-      );
-    });
+    // searchBox.on('focus, keydown', () => {
+    //   $('html, body').animate(
+    //     {
+    //       scrollTop: $('#searchbox-container').offset().top,
+    //     },
+    //     500
+    //   );
+    // });
+    
   }
+}
+
+document.addEventListener("DOMContentLoaded", function(event) {
+  init();
 });
