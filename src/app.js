@@ -1,3 +1,7 @@
+import jQuery from 'jquery';
+
+window.$ = jQuery; // workaround for https://github.com/parcel-bundler/parcel/issues/333
+
 import 'popper.js';
 import 'bootstrap';
 
@@ -10,12 +14,11 @@ import {
   refinementList,
 } from 'instantsearch.js/es/widgets';
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
-import STOP_WORDS from './utils/stop_words.json';
-import {BOOK_MAPPINGS} from './utils/constants.js';
+import {BOOK_MAPPINGS, STOP_WORDS} from './utils/constants.js';
 
 
-let TYPESENSE_SERVER_CONFIG = {
-  apiKey: process.env.TYPESENSE_SEARCH_ONLY_API_KEY, // Be sure to use an API key that only allows searches, in production
+const TYPESENSE_SERVER_CONFIG = {
+  apiKey: process.env.TYPESENSE_SEARCH_ONLY_API_KEY,
   nodes: [
     {
       host: process.env.TYPESENSE_HOST || 'localhost',
@@ -23,53 +26,9 @@ let TYPESENSE_SERVER_CONFIG = {
       protocol: process.env.TYPESENSE_PROTOCOL || 'http',
     },
   ],
-  numRetries: 8,
+  numRetries: 5,
   useServerSideSearchCache: true,
 };
-
-
-// [2, 3].forEach(i => {
-//   if (process.env[`TYPESENSE_HOST_${i}`]) {
-//     TYPESENSE_SERVER_CONFIG.nodes.push({
-//       host: process.env[`TYPESENSE_HOST_${i}`],
-//       port: process.env.TYPESENSE_PORT,
-//       protocol: process.env.TYPESENSE_PROTOCOL,
-//     });
-//   }
-// });
-
-// Unfortunately, dynamic process.env keys don't work with parcel.js
-// So need to enumerate each key one by one
-
-if (process.env[`TYPESENSE_HOST_2`]) {
-  TYPESENSE_SERVER_CONFIG.nodes.push({
-    host: anchorParams.host
-      ? anchorParams.host
-      : process.env[`TYPESENSE_HOST_2`],
-    port: process.env.TYPESENSE_PORT,
-    protocol: process.env.TYPESENSE_PROTOCOL,
-  });
-}
-
-if (process.env[`TYPESENSE_HOST_3`]) {
-  TYPESENSE_SERVER_CONFIG.nodes.push({
-    host: anchorParams.host
-      ? anchorParams.host
-      : process.env[`TYPESENSE_HOST_3`],
-    port: process.env.TYPESENSE_PORT,
-    protocol: process.env.TYPESENSE_PROTOCOL,
-  });
-}
-
-if (process.env[`TYPESENSE_HOST_NEAREST`]) {
-  TYPESENSE_SERVER_CONFIG['nearestNode'] = {
-    host: anchorParams.host
-      ? anchorParams.host
-      : process.env[`TYPESENSE_HOST_NEAREST`],
-    port: process.env.TYPESENSE_PORT,
-    protocol: process.env.TYPESENSE_PROTOCOL,
-  };
-}
 
 const INDEX_NAME = process.env.TYPESENSE_COLLECTION_NAME;
 
@@ -102,18 +61,32 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     query_by: 'content'
   },
 });
+
 const searchClient = typesenseInstantsearchAdapter.searchClient;
+
+let indexSize;
+
+const getIndexSize = async () => {
+  let results = await typesenseInstantsearchAdapter.typesenseClient.collections(INDEX_NAME)
+    .documents()
+    .search({ q: '*' });
+  return results["found"];
+}
+
+(async () => {
+  indexSize = await getIndexSize();
+  console.log(indexSize);
+})();
 
 const search = instantsearch({
   searchClient,
   indexName: INDEX_NAME,
   routing: true,
   searchFunction(helper) {
-    const resultClassList = document.getElementById("results-section").classList;
     if (helper.state.query === '') {
-      resultClassList.add('d-none');
+      $('#results-section').addClass('d-none');
     } else {
-      resultClassList.remove('d-none');
+      $('#results-section').removeClass('d-none');
       helper.search();
     }
   },
@@ -148,7 +121,9 @@ search.addWidgets([
         } else {
           statsText = `${nbHits.toLocaleString()} results`;
         }
-        return `${statsText} found in ${processingTimeMS} ms.`;
+        return `${statsText} found ${
+          indexSize ? ` - Searched ${indexSize.toLocaleString()} verses` : ''
+        } in ${processingTimeMS} ms.`;
       },
     },
   }),
@@ -202,25 +177,22 @@ search.addWidgets([
 
 search.start();
 
-function init () {
-  const searchBox = document.querySelector('#searchbox input[type=search]');
-  searchBox.onkeydown = function() {
+$(function() {
+  const $searchBox = $('#searchbox input[type=search]');
+
+  // Clear refinements, when searching
+  $searchBox.on('keydown', event => {
     search.helper.clearRefinements();
-  };
+  });
 
   if (!matchMedia('(min-width: 768px)').matches) {
-    // searchBox.on('focus, keydown', () => {
-    //   $('html, body').animate(
-    //     {
-    //       scrollTop: $('#searchbox-container').offset().top,
-    //     },
-    //     500
-    //   );
-    // });
-    
+    $searchBox.on('focus, keydown', () => {
+      $('html, body').animate(
+        {
+          scrollTop: $('#searchbox-container').offset().top,
+        },
+        500
+      );
+    });
   }
-}
-
-document.addEventListener("DOMContentLoaded", function(event) {
-  init();
 });
