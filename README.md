@@ -2,6 +2,11 @@
 
 View it live here: [nwt-search.live](https://nwt-search.live)
 
+<img width="791" alt="Screenshot 2022-06-14 at 10 58 04 PM" src="https://user-images.githubusercontent.com/40650158/173609791-20191c29-8e80-4582-9821-847e21d94cab.png">
+
+<img width="1015" alt="Screenshot 2022-06-14 at 10 59 12 PM" src="https://user-images.githubusercontent.com/40650158/173609967-c44949be-65b0-4e91-acfe-9394ad893466.png">
+
+
 ## Tech Stack
 
 This search experience is powered by <a href="https://typesense.org" target="_blank">Typesense</a> which is
