@@ -1,6 +1,5 @@
 /node_modules
 /dist
 /.cache
-package-lock.json
 local_setup.sh
 prod_setup.sh
